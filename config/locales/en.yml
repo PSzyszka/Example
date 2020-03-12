@@ -34,3 +34,6 @@ en:
   rating: Rating
   movie:
     not_found: Movie not found
+    sent_movie_info: Email sent with movie info
+  movies:
+    exported: Movies exported
