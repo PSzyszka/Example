@@ -8,6 +8,8 @@ class MoviesController < ApplicationController
 
   def show
     @movie = Movie.find(params[:id])
+    @comment = @movie.comments.build
+    @comments = Comment.where(movie_id: params[:id])
     @movie = ImportData.call([@movie], [@movie.title])[0]
   rescue ActiveRecord::RecordNotFound
     redirect_to root_path, alert: I18n.t('movie.not_found')
