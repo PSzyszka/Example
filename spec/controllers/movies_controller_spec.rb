@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe MoviesController, type: :controller do
   let!(:user)    { create(:user) }
   let!(:movie)   { create(:movie) }
+  let!(:comment) { create(:comment, movie: movie) }
 
   before { sign_in(user) }
 
@@ -53,11 +54,13 @@ RSpec.describe MoviesController, type: :controller do
 
   describe 'GET show' do
     context 'when movie is present' do
-      it 'assigns @movie and renders show template' do
+      it 'assigns @movie, @comment, @comments and renders show template' do
         allow_any_instance_of(ImportData).to receive(:call).and_return([movie_struct])
 
         get :show, params: { id: movie.id }
         expect(assigns(:movie)).to eq(movie_struct)
+        expect(assigns(:comment)).to be_an_instance_of(Comment)
+        expect(assigns(:comments)).to eq([comment])
         expect(response).to render_template(:show)
       end
     end
