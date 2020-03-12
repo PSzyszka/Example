@@ -1,0 +1,7 @@
+.jumbotron
+  .comment-container
+    .description
+      = form_for(@comment, url: movie_comment_path(@comment.movie_id, @comment.id), method: :put) do |f|
+        = f.text_field :description, class: 'new-description'
+        .buttons-container
+          = f.submit 'Update comment', class: 'button-center'
