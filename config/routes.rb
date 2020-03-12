@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/top_commenters', to: 'users#top_commenters'
+
   namespace :api do
     namespace :v1 do
       get 'movies' => 'movies#index'
