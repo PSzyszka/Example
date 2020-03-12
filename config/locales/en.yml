@@ -32,6 +32,11 @@
 en:
   hello: Hello world
   rating: Rating
+  comment:
+    not_found: Comment not found.
+    succesfully_created: Comment was created.
+    succesfully_updated: Comment was updated.
+    was_deleted: Comment was deleted.
   movie:
     not_found: Movie not found
     sent_movie_info: Email sent with movie info
