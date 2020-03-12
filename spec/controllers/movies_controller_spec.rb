@@ -70,4 +70,33 @@ RSpec.describe MoviesController, type: :controller do
       end
     end
   end
+
+  describe 'GET send_info' do
+    context 'when movie is present' do
+      it 'redirects to root path' do
+        allow_any_instance_of(ExportMoviesWorker).to receive(:perform)
+
+        get :send_info, params: { id: movie.id }
+        expect(response).to redirect_to(root_path)
+      end
+    end
+
+    context 'when movie is absent' do
+      it 'redirects to root path with notice' do
+        allow_any_instance_of(ExportMoviesWorker).to receive(:perform)
+
+        get :send_info, params: { id: movie.id + 1 }
+        expect(response).to redirect_to(root_path)
+      end
+    end
+  end
+
+  describe 'GET export' do
+    it 'redirects to root path with notice' do
+      allow_any_instance_of(ExportMoviesWorker).to receive(:perform)
+
+      get :export
+      expect(response).to redirect_to(root_path)
+    end
+  end
 end
