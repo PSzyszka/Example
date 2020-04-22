@@ -83,7 +83,7 @@ RSpec.describe Api::V1::MoviesController, type: :controller do
 
     context 'when movie is absent' do
       it 'renders record not found' do
-        error_message = { error: I18n.t('movie.not_found') }.to_json
+        error_message = { error: "Couldn't find Movie with 'id'=#{movie_2.id + 1}" }.to_json
 
         get :show, params: { id: movie_2.id + 1 }
         expect(response.body).to eq error_message
