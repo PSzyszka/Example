@@ -4,9 +4,8 @@ class CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params)
 
-    if @comment.save!
-      redirect_to movie_path(params[:movie_id]), success: I18n.t('comment.succesfully_created')
-    end
+    @comment.save!
+    redirect_to movie_path(params[:movie_id]), success: I18n.t('comment.succesfully_created')
   rescue ActiveRecord::RecordInvalid => e
     redirect_to movie_path(params[:movie_id]), alert: e.message
   end
@@ -20,9 +19,8 @@ class CommentsController < ApplicationController
   def update
     @comment = Comment.find(params[:id])
 
-    if @comment.update!(comment_params)
-      redirect_to movie_path(params[:movie_id]), success: I18n.t('comment.succesfully_updated')
-    end
+    @comment.update!(comment_params)
+    redirect_to movie_path(params[:movie_id]), success: I18n.t('comment.succesfully_updated')
   rescue ActiveRecord::RecordInvalid => e
     render 'edit', alert: e.message
   rescue ActiveRecord::RecordNotFound

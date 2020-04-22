@@ -1,6 +1,6 @@
 module Api
   module V1
-    class MoviesController < ActionController::API
+    class MoviesController < BaseController
       # GET api/v1/movies
       # GET api/v1/movies?include_genre=true
       def index
@@ -13,8 +13,6 @@ module Api
       def show
         movie = Movie.includes(:genre).find(params[:id])
         render json: movie, serializer: assign_serializer, status: 201
-      rescue ActiveRecord::RecordNotFound
-        render json: { error: I18n.t('movie.not_found') }, status: :not_found
       end
 
       private
