@@ -1,28 +1,26 @@
+# frozen_string_literal: true
+
 class TitleBracketsValidator < ActiveModel::Validator
+  attr_accessor :title
+  attr_reader :record
+  BRACKET_TYPES = %w([] {} ())
+
   def validate(record)
     @record = record
-
-    title_valid? ? select_brackets : error_message
+    @title = record.title
+    select_brackets
   end
 
-  def title_valid?
-    if @record.title.include?('[]') || @record.title.include?('{}') || @record.title.include?('()')
-      false
-    else
-      true
-    end
+  private
+
+  def title_invalid?
+    BRACKET_TYPES.any? { |empty_bracket| title.include?(empty_bracket) }
   end
 
   def select_brackets
-    brackets = []
-    bracket_types = ['[',']','{','}','(',')']
+    return error_message if title_invalid?
 
-    @record.title.split('').select do |letter|
-      brackets << letter if bracket_types.include?(letter)
-    end
-
-    brackets = brackets.join('')
-
+    brackets = title.gsub(/[a-z A-Z 0-9]/, '')
     check_brackets_order(brackets)
   end
 
@@ -44,6 +42,6 @@ class TitleBracketsValidator < ActiveModel::Validator
   end
 
   def error_message
-    @record.errors.add(@record.title, "Brackets can't be empty.")
+    record.errors.add(title, "Brackets can't be empty.")
   end
 end
